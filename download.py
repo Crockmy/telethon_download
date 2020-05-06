@@ -13,8 +13,6 @@ from datasource import Datasource
 from read_config import ReadDatabaseConfig, ReadJsonConfig
 from log import DatasourceLog, LocalLog
 
-# todo 进行mysql封装
-
 # 获取参数
 parser = argparse.ArgumentParser(description='manual to this script')
 parser.add_argument("-i", type=int, default=-1)
