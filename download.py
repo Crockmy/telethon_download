@@ -64,6 +64,7 @@ else:
     client = TelegramClient(my_session, api_id=api_id, api_hash=api_hash).start()
 
 log.info('已连接')
+client.get_dialogs()
 
 
 def download(_filter):
@@ -104,6 +105,11 @@ def download(_filter):
                 log.info('下载完成[' + str(filename) + '], 耗时' + str(end_time - start_time))
 
         except BaseException as e:
+            try:
+                log.info('下载失败,尝试删除文件[' + filename + ']')
+                cur_file.unlink()
+            except IsADirectoryError as ie:
+                log.error('删除文件[' + filename + ']失败' + ie)
             log.error('Exception:' + str(index) + ':' + str(e))
     log.info(_type + '类型文件下载结束')
 
@@ -116,4 +122,4 @@ if config.job['type_photo'] == 1:
 
 client.disconnect()
 if args.d is not None:
-    exec_id = my_source.update('update job_exec set end_time = sysdate() where id = ' + exec_id)
+    exec_id = my_source.update('update job_exec set end_time = sysdate() where id = ' + str(exec_id))
